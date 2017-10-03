@@ -65,6 +65,7 @@ describe('numero()', () => {
     assert.equal(numero(2000), 'duemila');
     assert.equal(numero(2016), 'duemilasedici');
     assert.equal(numero(3033), 'tremilatrentatré');
+    assert.equal(numero(1500000), 'un milione e cinquecentomila');
     assert.equal(numero(2650000), 'due milioni e seicentocinquantamila');
   });
 });

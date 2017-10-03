@@ -33,7 +33,7 @@ var numberMap = {
 var cardinalMap = {
   2: 'cento',
   3: 'mille',
-  6: 'miliardo',
+  6: 'milione',
 };
 
 function numero(n) {
@@ -71,6 +71,8 @@ function numero(n) {
     var cardinal = pluralise(cardinalMap[interval], units);
     if (units !== 1) {
       sentence.push(numero(units));
+    } else if (interval == 6) {
+      sentence.push('un')
     }
     sentence.push(cardinal);
 
@@ -86,7 +88,7 @@ function numero(n) {
 function pluralise(word, number) {
   if (number < 2) return word;
   switch (word) {
-    case 'miliardo':
+    case 'milione':
       return 'milioni';
     case 'mille':
       return 'mila';
