@@ -67,5 +67,11 @@ describe('numero()', () => {
     assert.equal(numero(3033), 'tremilatrentatré');
     assert.equal(numero(1500000), 'un milione e cinquecentomila');
     assert.equal(numero(2650000), 'due milioni e seicentocinquantamila');
+    assert.equal(numero(120000024), 'centoventi milioni e ventiquattro')
+    assert.equal(numero(1e9), 'un miliardo');
+    assert.equal(numero(1e12), 'un bilione');
+    assert.equal(numero(1e18), 'un trilione');
+    assert.equal(numero(1e24), 'un quadrilione');
+    assert.equal(numero(1e27), 'un quadriliardo');
   });
 });

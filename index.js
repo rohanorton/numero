@@ -34,10 +34,16 @@ var cardinalMap = {
   2: 'cento',
   3: 'mille',
   6: 'milione',
+  9: 'miliardo',
+  12: 'bilione',
+  18: 'trilione',
+  24: 'quadrilione',
+  27: 'quadriliardo',
+  60: 'decilione',
 };
 
-function numero(n) {
-  var floored = parseInt(n, 10);
+function numero(num) {
+  var floored = Math.floor(Number(num));
 
   if (numberMap[floored]) {
     return numberMap[floored];
@@ -63,7 +69,11 @@ function numero(n) {
   // Simple check to find the closest full number helper.
   while (!cardinalMap[interval]) interval -= 1;
 
-  var join = interval == 6 ? ' ' : '';
+  var isLargeCardinal =
+    [2, 3].indexOf(interval) === -1 &&
+    Object.keys(cardinalMap).indexOf(String(interval)) !== -1;
+
+  var join = isLargeCardinal ? ' ' : '';
 
   if (cardinalMap[interval]) {
     var remaining = Math.floor(floored % Math.pow(10, interval));
@@ -71,8 +81,9 @@ function numero(n) {
     var cardinal = pluralise(cardinalMap[interval], units);
     if (units !== 1) {
       sentence.push(numero(units));
-    } else if (interval == 6) {
-      sentence.push('un')
+    } else if (isLargeCardinal) {
+      // un millione etc.
+      sentence.push('un');
     }
     sentence.push(cardinal);
 
@@ -99,7 +110,7 @@ function pluralise(word, number) {
 
 function intervals(num) {
   var match = String(num).match(/e\+(\d+)/);
-  return match ? match[1] : String(num).length - 1;
+  return match ? Number(match[1]) : String(num).length - 1;
 }
 
 // Add exceptions:
