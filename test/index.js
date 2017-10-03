@@ -25,4 +25,37 @@ describe('numero()', () => {
     assert.equal(numero(19), 'diciannove');
     assert.equal(numero(20), 'venti');
   });
+  it('should handle tens', () => {
+    assert.equal(numero(10), 'dieci');
+    assert.equal(numero(20), 'venti');
+    assert.equal(numero(30), 'trenta');
+    assert.equal(numero(40), 'quaranta');
+    assert.equal(numero(50), 'cinquanta');
+    assert.equal(numero(60), 'sessanta');
+    assert.equal(numero(70), 'settanta');
+    assert.equal(numero(80), 'ottanta');
+    assert.equal(numero(90), 'novanta');
+  });
+  it('should handle numbers less than 100', () => {
+    assert.equal(numero(22), 'ventidue');
+    assert.equal(numero(37), 'trentasette');
+    assert.equal(numero(45), 'quarantacinque');
+    assert.equal(numero(59), 'cinquantanove');
+    assert.equal(numero(66), 'sessantasei');
+    assert.equal(numero(73), 'settantatré');
+    assert.equal(numero(81), 'ottantuno');
+    assert.equal(numero(98), 'novantotto');
+  });
+  it('should ignore decimal numbers (for now)', () => {
+    assert.equal(numero(2.1234), 'due');
+    assert.equal(numero(3.129431), 'tre');
+    assert.equal(numero(14.9999999), 'quattordici');
+    assert.equal(numero(90.1234234), 'novanta');
+  });
+  it('should handle negative numbers', () => {
+    assert.equal(numero(-1), 'meno uno');
+    assert.equal(numero(-4), 'meno quattro');
+    assert.equal(numero(-15), 'meno quindici');
+    assert.equal(numero(-20), 'meno venti');
+  });
 });
