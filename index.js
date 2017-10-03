@@ -31,7 +31,7 @@ const numberMap = {
 };
 
 const cardinalMap = {
-  2: 'centro',
+  2: 'cento',
   3: 'mille',
   6: 'miliardo',
 };
@@ -48,7 +48,7 @@ const numero = n => {
     return numberMap['-'] + ' ' + numero(-floored);
   }
 
-  const interval = intervals(floored);
+  let interval = intervals(floored);
 
   // It's below one hundred, but greater than nine.
   if (interval === 1) {
@@ -58,22 +58,56 @@ const numero = n => {
     );
   }
 
-  return '';
+  const sentence = [];
+
+  // Simple check to find the closest full number helper.
+  while (!cardinalMap[interval]) interval -= 1;
+
+  const join = interval == 6 ? ' ' : ''
+
+  if (cardinalMap[interval]) {
+    const remaining = Math.floor(floored % Math.pow(10, interval));
+    const units = Math.floor(floored / Math.pow(10, interval));
+    const cardinal = pluralise(cardinalMap[interval], units)
+    if (units !== 1) {
+      sentence.push(numero(units));
+    }
+    sentence.push(cardinal);
+
+    if (remaining) {
+      if (interval == 6) sentence.push('e')
+      sentence.push(numero(remaining));
+    }
+  }
+
+  return sentence.join(join);
 };
 
-// Add exceptions:
-[20, 30, 40, 50, 60, 70, 80, 90].forEach(tens => {
-  // Remove last
-  numberMap[tens + 1] = numero(tens).slice(0, -1) + 'uno';
-  numberMap[tens + 8] = numero(tens).slice(0, -1) + 'otto';
-
-  // Tre => Tré
-  numberMap[tens + 3] = numero(tens) + 'tré';
-});
+const pluralise = (word, number) => {
+  if (number < 2) return word
+  switch (word) {
+    case 'miliardo':
+      return 'milioni'
+    case 'mille':
+      return 'mila'
+    default:
+      return word
+  }
+}
 
 const intervals = num => {
   const match = String(num).match(/e\+(\d+)/);
   return match ? match[1] : String(num).length - 1;
 };
+
+// Add exceptions:
+[20, 30, 40, 50, 60, 70, 80, 90].forEach(tens => {
+  // Remove last letter in -1 and -8 numbers:
+  numberMap[tens + 1] = numero(tens).slice(0, -1) + 'uno';
+  numberMap[tens + 8] = numero(tens).slice(0, -1) + 'otto';
+
+  // Tre => Tré if after a ten:
+  numberMap[tens + 3] = numero(tens) + 'tré';
+});
 
 module.exports = numero;

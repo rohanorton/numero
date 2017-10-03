@@ -58,4 +58,13 @@ describe('numero()', () => {
     assert.equal(numero(-15), 'meno quindici');
     assert.equal(numero(-20), 'meno venti');
   });
+  it('should handle large numbers', () => {
+    assert.equal(numero(1492), 'millequattrocentonovantadue');
+    assert.equal(numero(1962), 'millenovecentosessantadue');
+    assert.equal(numero(1991), 'millenovecentonovantuno');
+    assert.equal(numero(2000), 'duemila');
+    assert.equal(numero(2016), 'duemilasedici');
+    assert.equal(numero(3033), 'tremilatrentatré');
+    assert.equal(numero(2650000), 'due milioni e seicentocinquantamila');
+  });
 });
